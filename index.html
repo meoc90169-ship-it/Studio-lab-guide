@@ -289,16 +289,21 @@
   .video-slot .status{display:inline-block;margin-top:10px;font-size:.85rem;}
   .video-hint{font-size:.88rem;}
   .extra-link{
-    margin:14px auto 0;
+    margin:0 auto 16px;
     max-width:460px;
-    padding:12px 14px;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:10px;
-    font-size:.9rem;
+    padding:14px 16px;
+    background:#fff4d6;
+    border:2px solid #f0b429;
+    border-radius:12px;
+    font-size:.95rem;
     text-align:left;
+    color:#3d2e00;
+    box-shadow:0 6px 18px -8px rgba(240,180,41,.7);
   }
-  .extra-link a{font-weight:600;}
+  .extra-link .extra-title{display:block;font-weight:800;font-size:1.02rem;margin-bottom:4px;}
+  .extra-link .link-row{margin-top:10px;}
+  .extra-link .btn-primary{background:#d97706;}
+  .extra-link .btn-ghost{color:#7a4a00;border-color:#f0b429;background:#fff;}
 
   /* ---- Star guide ---- */
   .steps{margin:0 0 14px;padding-left:20px;color:var(--text-muted);}
@@ -505,15 +510,20 @@
       </div>
       <div class="video-slot">
         <span class="label">📱 Cài đặt cho điện thoại</span>
+        <div class="extra-link">
+          <span class="extra-title">🔗 Cần thêm: Extension Multiprofile Pro</span>
+          Giúp đăng nhập <strong>nhiều tài khoản Google</strong> trên điện thoại.
+          <div class="link-row">
+            <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb" target="_blank" rel="noopener">Mở Multiprofile Pro ↗</a>
+            <button class="btn btn-ghost copy-btn" type="button" data-copy="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb">📋 Copy link</button>
+          </div>
+        </div>
         <div class="video-frame portrait">
           <iframe src="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/preview" title="Video cài đặt Studio.lab trên điện thoại" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="video-actions">
           <button class="fs-btn" type="button">⛶ Toàn màn hình</button>
           <a class="status" href="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/view?usp=sharing" target="_blank" rel="noopener">Mở trên Google Drive ↗</a>
-        </div>
-        <div class="extra-link">
-          🔗 Extension <a href="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb" target="_blank" rel="noopener">Multiprofile Pro</a>: giúp đăng nhập nhiều tài khoản Google trên điện thoại.
         </div>
       </div>
     </div>
