@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio.lab — Tiện ích cho Google AI Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2f8fd;
+    --bg-soft:#e6f2fb;
+    --surface:#ffffff;
+    --line:#d8e9f7;
+    --text:#1e2c3a;
+    --text-muted:#54697d;
+    --blue:#4f8fc0;
+    --blue-deep:#2f6a94;
+    --blue-pale:#d9ecfa;
+    --radius:16px;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:inherit}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101820;
+      --bg-soft:#16212b;
+      --surface:#182430;
+      --line:#28394a;
+      --text:#e9f2fa;
+      --text-muted:#a3b6c7;
+      --blue:#7fb3dd;
+      --blue-deep:#a9d2f0;
+      --blue-pale:#20364a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101820;
+    --bg-soft:#16212b;
+    --surface:#182430;
+    --line:#28394a;
+    --text:#e9f2fa;
+    --text-muted:#a3b6c7;
+    --blue:#7fb3dd;
+    --blue-deep:#a9d2f0;
+    --blue-pale:#20364a;
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  html,body{min-height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Be Vietnam Pro", system-ui, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--blue-deep);}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px 80px;}
+
+  /* ---- Hero ---- */
+  .hero{
+    background:linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+    border-bottom:1px solid var(--line);
+    padding:56px 24px 44px;
+    text-align:center;
+  }
+  .backlink{
+    display:inline-block;
+    font-size:.85rem;
+    color:var(--text-muted);
+    text-decoration:none;
+    margin-bottom:28px;
+    border-bottom:1px solid transparent;
+  }
+  .backlink:hover{border-color:var(--text-muted);}
+  .hero h1{
+    font-size:2.4rem;
+    font-weight:800;
+    margin:0 0 12px;
+    letter-spacing:-0.01em;
+    color:var(--blue-deep);
+  }
+  .hero p{
+    max-width:480px;
+    margin:0 auto;
+    color:var(--text-muted);
+    font-size:1.05rem;
+  }
+  .hero-actions{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:28px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 22px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.95rem;
+    text-decoration:none;
+    border:1px solid transparent;
+    transition:transform .15s ease;
+    max-width:100%;
+    overflow-wrap:anywhere;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--blue);color:#fff;}
+  .btn-ghost{background:transparent;color:var(--blue-deep);border-color:var(--line);}
+  .unofficial{
+    margin-top:22px;
+    font-size:.8rem;
+    color:var(--text-muted);
+  }
+  .unofficial::before{content:"● "; color:var(--blue);}
+
+  /* ---- Table of contents ---- */
+  html{scroll-behavior:smooth;}
+  .toc{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .toc ul{
+    list-style:none;
+    margin:0 auto;
+    padding:10px 16px;
+    max-width:720px;
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .toc ul::-webkit-scrollbar{display:none;}
+  .toc a{
+    display:block;
+    white-space:nowrap;
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:.88rem;
+    font-weight:600;
+    color:var(--text-muted);
+    text-decoration:none;
+  }
+  .toc a:hover{background:var(--blue-pale);color:var(--blue-deep);}
+  .toc a.active{background:var(--blue);color:#fff;}
+
+  /* ---- Sections ---- */
+  section{padding:48px 0;border-bottom:1px solid var(--line);scroll-margin-top:56px;}
+  section:last-of-type{border-bottom:none;}
+  h2{
+    font-size:1.35rem;
+    font-weight:700;
+    margin:0 0 16px;
+    color:var(--text);
+  }
+  section p{color:var(--text-muted); margin:0 0 12px;}
+  .lede{color:var(--text); font-size:1.02rem;}
+
+  .source-box{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    margin-top:8px;
+  }
+  .source-box p{margin:0 0 14px;}
+  .source-box p:last-child{margin-bottom:0;}
+
+  /* ---- Feature list ---- */
+  .feature{
+    display:flex;
+    gap:16px;
+    padding:20px 0;
+    border-top:1px solid var(--line);
+  }
+  .feature:first-child{border-top:none;padding-top:8px;}
+  .feature-icon{
+    flex:none;
+    width:40px;height:40px;
+    border-radius:11px;
+    background:var(--blue-pale);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.15rem;
+  }
+  .feature h3{
+    margin:2px 0 6px;
+    font-size:1.02rem;
+    font-weight:700;
+  }
+  .feature p{margin:0;color:var(--text-muted);font-size:.95rem;}
+  .feature ul{margin:8px 0 0;padding-left:18px;color:var(--text-muted);font-size:.95rem;}
+  .feature li{margin-bottom:4px;}
+
+  /* ---- Video placeholders ---- */
+  .video-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:8px;}
+  .video-slot{
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    text-align:center;
+    color:var(--text-muted);
+    background:var(--bg-soft);
+  }
+  .video-slot .label{font-weight:700;color:var(--text);display:block;margin-bottom:12px;}
+  .video-frame{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .video-frame.portrait{
+    aspect-ratio:9/16;
+    width:100%;
+    max-width:340px;
+    margin:0 auto;
+  }
+  .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .video-frame:fullscreen{aspect-ratio:auto;max-width:none;width:100vw;height:100vh;border-radius:0;}
+  .video-frame:-webkit-full-screen{aspect-ratio:auto;max-width:none;width:100vw;height:100vh;border-radius:0;}
+  .video-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+  .fs-btn{
+    font:inherit;font-size:.85rem;font-weight:600;
+    padding:6px 14px;border-radius:999px;cursor:pointer;
+    background:var(--blue);color:#fff;border:0;
+  }
+  .video-actions .status{margin-top:0;align-self:center;}
+  .video-slot .status{display:inline-block;margin-top:10px;font-size:.85rem;}
+  .video-hint{font-size:.88rem;}
+  .extra-link{
+    margin:14px auto 0;
+    max-width:460px;
+    padding:12px 14px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:.9rem;
+    text-align:left;
+  }
+  .extra-link a{font-weight:600;}
+
+  /* ---- Star guide ---- */
+  .steps{margin:0 0 14px;padding-left:20px;color:var(--text-muted);}
+  .steps li{margin-bottom:6px;}
+  .star-img{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line);margin:0 0 14px;}
+  .feature p.highlight{
+    margin-top:10px;
+    padding:10px 14px;
+    background:var(--blue-pale);
+    border-left:3px solid var(--blue);
+    border-radius:8px;
+    color:var(--text);
+  }
+
+  /* ---- Note / footer ---- */
+  .note{
+    background:var(--blue-pale);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    color:var(--text);
+    font-size:.92rem;
+  }
+  .note strong{color:var(--blue-deep);}
+  footer{
+    text-align:center;
+    padding:32px 24px 48px;
+    color:var(--text-muted);
+    font-size:.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <a class="backlink" href="https://ngannt2277-boop.github.io/google-ai-studio-guide/">← Về trang hướng dẫn Google AI Studio</a>
+  <h1>Studio.lab</h1>
+  <p>Tiện ích mở rộng giúp trò chuyện trên Google AI Studio ổn định, gọn gàng và tiện hơn.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="https://github.com/dorimommy/Studio.lab">Xem trên GitHub</a>
+    <a class="btn btn-ghost" href="#install">Xem video cài đặt</a>
+  </div>
+  <p class="unofficial">Extension không chính thức, không phải sản phẩm của Google.</p>
+</div>
+
+<nav class="toc" aria-label="Mục lục">
+  <ul>
+    <li><a href="#about">Giới thiệu</a></li>
+    <li><a href="#source">Nguồn &amp; tác giả</a></li>
+    <li><a href="#features">Tính năng</a></li>
+    <li><a href="#install">Video cài đặt</a></li>
+    <li><a href="#note">Lưu ý</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <section id="about">
+    <h2>Studio.lab là gì?</h2>
+    <p class="lede">Studio.lab là một tiện ích mở rộng dành cho Google AI Studio, giúp cuộc trò chuyện ổn định hơn khi chat lâu, hạn chế mất nội dung do phản hồi bị gián đoạn (prohibited content), đồng thời bổ sung nhiều công cụ tiện lợi như lưu bản nháp, đếm từ, xuất cuộc trò chuyện và định dạng văn bản.</p>
+    <p>Extension do một nhà phát triển độc lập tạo ra, không phải sản phẩm chính thức của Google.</p>
+  </section>
+
+  <section id="source">
+    <h2>Nguồn và tác giả</h2>
+    <div class="source-box">
+      <p>Trang này chỉ dịch và giải thích lại các chức năng bằng tiếng Việt cho dễ hiểu. Toàn bộ extension và mã nguồn thuộc về tác giả <strong>dorimommy</strong>.</p>
+      <p>Nên tải extension trực tiếp từ GitHub chính thức, không tải lại từ nguồn không rõ ràng.</p>
+      <p>Nếu thấy hữu ích, hãy bấm <strong>Star</strong> trên GitHub để ủng hộ tác giả, hoàn toàn miễn phí. Cách làm rất đơn giản:</p>
+      <ol class="steps">
+        <li>Mở trang GitHub của dự án (nút bên dưới).</li>
+        <li>Bấm <strong>Sign in</strong> ở góc trên, chọn <strong>Continue with Google</strong> để đăng nhập bằng tài khoản Google, không cần tạo tài khoản riêng.</li>
+        <li>Quay lại trang dự án và bấm nút <strong>☆ Star</strong> như hình dưới là xong.</li>
+      </ol>
+      <img class="star-img" src="data:image/jpeg;base64,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e8Iv4e1C3v8AQY5orS+tLrUYduYpnd0kRomB+cg5GMY56zxb+0nN8Efj98bo9A8L6PdeKtV8Q+F/DulSSXNyiaje3tkfLe7LSOiRxAN/qUQkDByx3D0ub/gnz4S1P4eeMtD1XXvGet33j25s7nWdev76GTVLgWkiSW8SsIREkaFMBViHDN3wRrePP2H/AAZ8SNT8e3mpza41z4/udOvriWG7WGTSrmwi8u2ns3VA0Ui/eyxfJ9iRSjKKVn87aX/hX/CMl666dHFO7f3X6Oztf56+mh2nwcg8d2/h24X4gXPhK71b7RmCTw9a3Fvb+TsThknkkbeH38hsFdvAORW/ZDytevUH3WSKU/7x3Kf0Ra5z4W/Dw/BbwvcWl74t8WeLpLi4877Zr9zFcXQ+RUESeVFGoX5c4CZJZiSSa6bSLeRVlnmXbNctuKf881Awq/gOvuTUSte6FHaxcoooqCwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA+Iv+Cm3/AAQt+FX/AAUi1a18Q6gb3wv4wtNqNqmmFYzfRAj91OpBDjHAPDLxhgODx/wQ/wCCQ1x8BvDtpoun6Pob2emxrBbmGZo0kjXp5ichup+9u6nmv0NoqK1NVUoz2R34LMq2Fd6VvmrnwNoX/BBX4Z+O/wBqiw+MPxGt/wC39f02FI4dKyv9msyMGjeWPB8xkOcZO3nlDgEfetpax2NskMKLHFGNqqo4AqSiqStFRWyOWvXnWm6lTdhRRRTMgooooAKKKKACiiigAooooAKKKKACiiigAooooAKpP4etWclUeEk5PkyvECfopFXaKAKP/CPQf89L7/wNm/8AiqP+Eeg/56X3/gbN/wDFVeop3YWRR/4R6D/npff+Bs3/AMVR/wAI9B/z0vv/AANm/wDiqvUUXYWRVtNHtrKXzEjzJjHmOxd8f7zEmrVFFIAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK5D486nc6P8ACjVbi0uJ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" alt="Nút Star trên trang GitHub của Studio.lab, nằm cạnh nút Watch và Fork">
+      <p>Ngoài ra có thể ủng hộ thêm qua liên kết Ko-fi được đặt trong trang GitHub của dự án.</p>
+      <a class="btn btn-primary" href="https://github.com/dorimommy/Studio.lab">github.com/dorimommy/Studio.lab</a>
+    </div>
+  </section>
+
+  <section id="features">
+    <h2>Extension có những gì?</h2>
+
+    <div class="feature">
+      <div class="feature-icon">🛡️</div>
+      <div>
+        <h3>Bảo toàn phản hồi</h3>
+        <p>Hạn chế tình trạng AI Studio tự ngắt giữa chừng và làm mất phần nội dung đã tạo. Nếu hệ thống không gửi nội dung về ngay từ đầu thì extension cũng không thể khôi phục.</p>
+        <p class="highlight">Đây chính là phần sửa lỗi <strong>Prohibited content</strong> mọi người gặp phải. Phản hồi đang chạy giữa chừng thì bị ngắt và hiển thị Prohibited content luôn.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <div>
+        <h3>Tối ưu cuộc trò chuyện</h3>
+        <p>Giảm lượng tin nhắn cũ đang tải trên màn hình để chat dài bớt giật, lag.</p>
+        <ul>
+          <li><strong>Bộ đệm — An toàn:</strong> tạm ẩn tin nhắn cũ, vẫn tải lại được khi cần. Phù hợp với phần lớn người dùng.</li>
+          <li><strong>Dọn trực tiếp — Mạnh:</strong> loại bỏ tin nhắn cũ khỏi phiên hiện tại để giảm lag mạnh hơn, chỉ dùng khi không cần kéo lại lịch sử cũ.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">⬇️</div>
+      <div>
+        <h3>Nút trở về cuối đoạn chat</h3>
+        <p>Hiện một nút nhỏ khi đang đọc phần phía trên, giúp quay lại cuối cuộc trò chuyện nhanh chóng.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🔤</div>
+      <div>
+        <h3>Bộ đếm từ</h3>
+        <p>Hiển thị số từ và số ký tự trong từng tin nhắn của cả người dùng lẫn AI.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">📝</div>
+      <div>
+        <h3>Bảo vệ bản nháp</h3>
+        <p>Tự động lưu nội dung đang gõ. Nếu trang tải lại hoặc gặp sự cố, extension sẽ cố khôi phục bản nháp để không phải viết lại từ đầu.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🧹</div>
+      <div>
+        <h3>Dọn dẹp giao diện</h3>
+        <p>Cho phép ẩn các thành phần không cần thiết như banner nâng cấp, cảnh báo, nút đánh giá phản hồi và phần gợi ý. Chỉ làm giao diện gọn hơn, không xóa hạn mức hay đổi loại tài khoản.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">📤</div>
+      <div>
+        <h3>Xuất cuộc trò chuyện</h3>
+        <p>Tải nội dung cuộc trò chuyện về máy dưới dạng <strong>Markdown</strong> (dễ đọc, dễ chỉnh sửa) hoặc <strong>JSON</strong> (giữ cấu trúc đầy đủ hơn). Cần gửi ít nhất một tin nhắn sau khi bật extension thì mới có dữ liệu để xuất.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">⚙️</div>
+      <div>
+        <h3>Cấu hình mặc định</h3>
+        <p>Lưu lại model, System Instructions và các công cụ thường dùng. Khi mở cuộc trò chuyện mới, extension tự động áp dụng lại cấu hình đã lưu.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🅰️</div>
+      <div>
+        <h3>Công cụ định dạng văn bản</h3>
+        <p>Thêm các nút định dạng ngay trong ô nhập prompt: in đậm, in nghiêng, tiêu đề, danh sách, trích dẫn, liên kết và code. Hỗ trợ tự nối danh sách khi bấm Enter.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🚫</div>
+      <div>
+        <h3>Chặn dữ liệu theo dõi</h3>
+        <p>Chặn một số dữ liệu thống kê như Google Analytics và báo cáo kỹ thuật. Không ngăn nội dung trò chuyện gửi tới Gemini, vì AI vẫn cần nhận prompt để tạo phản hồi.</p>
+      </div>
+    </div>
+
+    <div class="feature">
+      <div class="feature-icon">🎨</div>
+      <div>
+        <h3>Giao diện chat hiện đại</h3>
+        <p>Sắp xếp lại thanh nhập liệu theo phong cách Gemini, gom gọn các nút công cụ và cải thiện hiển thị ảnh, file đính kèm. Tính năng đang phát triển nên có thể chưa ổn định trên mọi tài khoản.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="install">
+    <h2>Video hướng dẫn cài đặt</h2>
+    <p>Video minh họa từng bước cài đặt Studio.lab. Bấm nút phát để xem ngay trên trang.</p>
+    <p class="video-hint">Muốn xem rõ hơn: bấm nút <strong>⛶ Toàn màn hình</strong> dưới mỗi video (bấm <kbd>Esc</kbd> để thoát), hoặc bấm <strong>"Mở trên Google Drive ↗"</strong> để xem trong tab mới.</p>
+    <div class="video-grid">
+      <div class="video-slot">
+        <span class="label">💻 Cài đặt cho máy tính</span>
+        <div class="video-frame">
+          <iframe src="https://drive.google.com/file/d/1M1ugwwm2QvRIZXzwAAa8ASigFo2JLQfY/preview" title="Video cài đặt Studio.lab trên máy tính" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-actions">
+          <button class="fs-btn" type="button">⛶ Toàn màn hình</button>
+          <a class="status" href="https://drive.google.com/file/d/1M1ugwwm2QvRIZXzwAAa8ASigFo2JLQfY/view?usp=sharing" target="_blank" rel="noopener">Mở trên Google Drive ↗</a>
+        </div>
+      </div>
+      <div class="video-slot">
+        <span class="label">📱 Cài đặt cho điện thoại</span>
+        <div class="video-frame portrait">
+          <iframe src="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/preview" title="Video cài đặt Studio.lab trên điện thoại" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-actions">
+          <button class="fs-btn" type="button">⛶ Toàn màn hình</button>
+          <a class="status" href="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/view?usp=sharing" target="_blank" rel="noopener">Mở trên Google Drive ↗</a>
+        </div>
+        <div class="extra-link">
+          🔗 Extension <a href="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb" target="_blank" rel="noopener">Multiprofile Pro</a>: giúp đăng nhập nhiều tài khoản Google trên điện thoại.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="note">
+    <h2>Lưu ý</h2>
+    <div class="note">
+      Studio.lab hiện vẫn là extension không chính thức và có thể tạm thời gặp lỗi khi Google thay đổi giao diện AI Studio. Nếu một chức năng bỗng không hoạt động, hãy kiểm tra phiên bản mới nhất trên GitHub của tác giả. <strong>Trang này chỉ cung cấp bản dịch và hướng dẫn sử dụng</strong>, không chỉnh sửa hoặc phát hành lại extension.
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Trang hướng dẫn soạn bởi Cá Mèo · Extension phát triển bởi dorimommy
+</footer>
+
+<script>
+  document.querySelectorAll('.fs-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var frame = btn.closest('.video-slot').querySelector('.video-frame');
+      var link = btn.closest('.video-slot').querySelector('a.status');
+      var req = frame.requestFullscreen || frame.webkitRequestFullscreen;
+      if (!req) { window.open(link.href, '_blank'); return; }
+      try {
+        var p = req.call(frame);
+        if (p && p.catch) p.catch(function () { window.open(link.href, '_blank'); });
+      } catch (e) { window.open(link.href, '_blank'); }
+    });
+  });
+
+  // Tô sáng mục đang xem trên thanh mục lục
+  (function () {
+    var links = document.querySelectorAll('.toc a');
+    if (!('IntersectionObserver' in window) || !links.length) return;
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.classList.remove('active'); });
+        var a = map[en.target.id];
+        if (a) {
+          a.classList.add('active');
+          var ul = a.closest('ul');
+          ul.scrollLeft = a.offsetLeft - (ul.clientWidth - a.offsetWidth) / 2;
+        }
+      });
+    }, {rootMargin: '-45% 0px -50% 0px'});
+    document.querySelectorAll('section[id]').forEach(function (s) { obs.observe(s); });
+  })();
+</script>
+
+</body>
+</html>
