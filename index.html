@@ -289,9 +289,8 @@
   .video-slot .status{display:inline-block;margin-top:10px;font-size:.85rem;}
   .video-hint{font-size:.88rem;}
   .extra-link{
-    margin:0 auto 16px;
-    max-width:460px;
-    padding:14px 16px;
+    margin:0;
+    padding:16px 18px;
     background:#fff4d6;
     border:2px solid #f0b429;
     border-radius:12px;
@@ -300,6 +299,30 @@
     color:#3d2e00;
     box-shadow:0 6px 18px -8px rgba(240,180,41,.7);
   }
+  .coming-soon{display:flex;align-items:center;justify-content:center;}
+  .coming-soon-inner{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    padding:20px;color:#cfd8e3;text-align:center;font-size:.92rem;
+  }
+  .cs-badge{
+    padding:6px 16px;border-radius:999px;
+    background:#fff;color:#111;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:.85rem;
+  }
+  .ios-note{
+    margin:16px auto 0;
+    max-width:460px;
+    padding:14px 16px;
+    background:var(--surface);
+    border:2px solid var(--blue);
+    border-radius:12px;
+    text-align:left;
+    font-size:.93rem;
+    color:var(--text);
+  }
+  .ios-note .extra-title{display:block;font-weight:800;font-size:1rem;margin-bottom:6px;color:var(--blue-deep);}
+  .ios-note ol{margin:0;padding-left:20px;}
+  .ios-note li{margin-bottom:6px;}
   .extra-link .extra-title{display:block;font-weight:800;font-size:1.02rem;margin-bottom:4px;}
   .extra-link .link-row{margin-top:10px;}
   .extra-link .btn-primary{background:#d97706;}
@@ -508,22 +531,39 @@
           <a class="status" href="https://drive.google.com/file/d/1M1ugwwm2QvRIZXzwAAa8ASigFo2JLQfY/view?usp=sharing" target="_blank" rel="noopener">Mở trên Google Drive ↗</a>
         </div>
       </div>
-      <div class="video-slot">
-        <span class="label">📱 Cài đặt cho điện thoại</span>
-        <div class="extra-link">
-          <span class="extra-title">🔗 Cần thêm: Extension Multiprofile Pro</span>
-          Giúp đăng nhập <strong>nhiều tài khoản Google</strong> trên điện thoại.
-          <div class="link-row">
-            <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb" target="_blank" rel="noopener">Mở Multiprofile Pro ↗</a>
-            <button class="btn btn-ghost copy-btn" type="button" data-copy="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb">📋 Copy link</button>
-          </div>
+      <div class="extra-link">
+        <span class="extra-title">🔗 Điện thoại cần thêm: Extension Multiprofile Pro</span>
+        Dùng cho <strong>cả Android và iOS</strong>, giúp đăng nhập <strong>nhiều tài khoản Google</strong> trên điện thoại.
+        <div class="link-row">
+          <a class="btn btn-primary" href="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb" target="_blank" rel="noopener">Mở Multiprofile Pro ↗</a>
+          <button class="btn btn-ghost copy-btn" type="button" data-copy="https://chromewebstore.google.com/detail/ahfifhihmnandmgmahngichhdjklocbb?utm_source=item-share-cb">📋 Copy link</button>
         </div>
+      </div>
+      <div class="video-slot">
+        <span class="label">🤖 Cài đặt cho điện thoại Android</span>
         <div class="video-frame portrait">
           <iframe src="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/preview" title="Video cài đặt Studio.lab trên điện thoại" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="video-actions">
           <button class="fs-btn" type="button">⛶ Toàn màn hình</button>
           <a class="status" href="https://drive.google.com/file/d/1tMwrt1_NefcgOid7DHoitw1XIF-YJFvz/view?usp=sharing" target="_blank" rel="noopener">Mở trên Google Drive ↗</a>
+        </div>
+      </div>
+      <div class="video-slot">
+        <span class="label">🍎 Cài đặt cho iPhone / iPad (iOS)</span>
+        <div class="video-frame portrait coming-soon">
+          <div class="coming-soon-inner">
+            <span class="cs-badge">Sắp ra mắt</span>
+            <span class="cs-text">Video hướng dẫn cho iOS đang được làm, sẽ cập nhật sớm.</span>
+          </div>
+        </div>
+        <div class="ios-note">
+          <span class="extra-title">📌 Lưu ý khi cài trên iOS (dùng trình duyệt Orion by Kagi)</span>
+          <ol>
+            <li><strong>Giải nén file zip trước:</strong> bấm vào file zip đã tải về, iPhone sẽ tự giải nén thành một thư mục.</li>
+            <li>Mở <strong>Orion</strong>, chọn <strong>Tiện ích mở rộng</strong> → <strong>Tìm kiếm tiện ích mở rộng</strong>.</li>
+            <li>Tải <strong>thư mục đã giải nén</strong> lên (không chọn file zip).</li>
+          </ol>
         </div>
       </div>
     </div>
